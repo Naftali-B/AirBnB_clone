@@ -1,32 +1,61 @@
-import uuid
+#!/usr/bin/python3
+"""
+module: class BaseModel
+contains methods for persistence of data
+keeps track of its number of instances
+"""
+
 from datetime import datetime
-import models
+from uuid import uuid4
+from models import storage
 
 class BaseModel:
+    """
+    class BaseModel
+    """
     def __init__(self, *args, **kwargs):
+        """
+        initializes all instances of BaseModel
+        attributes:
+            id (string): unique id for every instance of BaseModel
+            created_at (datetime): time at which instance was created
+        """
         if kwargs:
-            for key, value in kwargs.items():
-                if key not in ['__class__', 'created_at', 'updated_at']:
-                    setattr(self, key, value)
-            self.created_at = datetime.strptime(kwargs.get('created_at'), '%Y-%m-%dT%H:%M:%S.%f')
-            self.updated_at = datetime.strptime(kwargs.get('updated_at'), '%Y-%m-%dT%H:%M:%S.%f')
+            self.updated_at = datetime.strptime(kwargs.get('updated_at', ''),
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+            self.created_at = datetime.strptime(kwargs.get('created_at', ''),
+                                                '%Y-%m-%dT%H:%M:%S.%f')
+            for k, v in kwargs.items():
+                if k not in ['updated_at', 'created_at', '__class__']:
+                    self.__setattr__(k, v)
         else:
-            self.id = str(uuid.uuid4())
+            self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            models.storage.new(self)
+            storage.new(self)
 
     def __str__(self):
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        """
+        prints a string representation of BaseClass instance
+        """
+        return '[{}] ({}) {}'.format(self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
+        """
+        updates the public instance attribute
+        updated_at with the current datetime
+        """
         self.updated_at = datetime.utcnow()
-        models.storage.save()
+        storage.save()
 
     def to_dict(self):
-        obj_dict = self.__dict__.copy()
-        obj_dict['__class__'] = self.__class__.__name__
-        obj_dict['created_at'] = self.created_at.isoformat()
-        obj_dict['updated_at'] = self.updated_at.isoformat()
-        return obj_dict
+        """
+        returns a dictionary containing all
+        keys/values of __dict__ of the instance
+        """
+        instance_dict = self.__dict__.copy()
+        instance_dict['created_at'] = self.created_at.isoformat()
+        instance_dict['updated_at'] = self.updated_at.isoformat()
+        instance_dict['__class__'] = self.__class__.__name__
+        return instance_dict
 
