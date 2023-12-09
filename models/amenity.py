@@ -1,8 +1,8 @@
 #!usr/bin/python3
 """
-    module: Amenity
+    Amenity
 """
-from models.base_model import BaseModel
+from base_model import BaseModel
 
 
 class Amenity(BaseModel):
