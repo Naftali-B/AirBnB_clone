@@ -1,25 +1,25 @@
 #!/usr/bin/python3
-"""This file defines unittests for console.py.
+"""Unittests for console.py.
 
 Unittest classes:
     TestHBNBCommand_prompting
-    TestHBNBCommand_exit
     TestHBNBCommand_help
-    TestHBNBCommand_show
+    TestHBNBCommand_exit
     TestHBNBCommand_create
+    TestHBNBCommand_show
     TestHBNBCommand_all
     TestHBNBCommand_destroy
     TestHBNBCommand_update
 """
-
-import os
 import sys
+import os
 import unittest
 from models import storage
 from models.engine.file_storage import FileStorage
-from io import StringIO
 from console import HBNBCommand
+from io import StringIO
 from unittest.mock import patch
+
 
 class TestHBNBCommand_prompting(unittest.TestCase):
     """Unittests for testing prompting of the HBNB command interpreter."""
@@ -31,6 +31,7 @@ class TestHBNBCommand_prompting(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
+
 
 class TestHBNBCommand_help(unittest.TestCase):
     """Unittests for testing help messages of the HBNB command interpreter."""
@@ -119,7 +120,6 @@ class TestHBNBCommand_exit(unittest.TestCase):
 class TestHBNBCommand_create(unittest.TestCase):
     """Unittests for testing create from the HBNB command interpreter."""
 
-
     @classmethod
     def setUp(self):
         try:
@@ -197,6 +197,7 @@ class TestHBNBCommand_create(unittest.TestCase):
             self.assertLess(0, len(output.getvalue().strip()))
             testKey = "Review.{}".format(output.getvalue().strip())
             self.assertIn(testKey, storage.all().keys())
+
 
 class TestHBNBCommand_show(unittest.TestCase):
     """Unittests for testing show from the HBNB command interpreter"""
@@ -449,6 +450,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             command = "Review.show({})".format(testID)
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertEqual(obj.__str__(), output.getvalue().strip())
+
 
 class TestHBNBCommand_destroy(unittest.TestCase):
     """Unittests for testing destroy from the HBNB command interpreter."""
@@ -1046,7 +1048,7 @@ class TestHBNBCommand_update(unittest.TestCase):
             testCmd = "User.update({})".format(testId)
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(testCmd))
-A            self.assertEqual(correct, output.getvalue().strip())
+            self.assertEqual(correct, output.getvalue().strip())
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create State"))
             testId = output.getvalue().strip()
