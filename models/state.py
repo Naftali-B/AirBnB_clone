@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """
-    State
+Class:State
 """
 
 
-from base_model import BaseModel
+from models.base_model import BaseModel
 
 
 class State(BaseModel):
+    """class for state
+"""
     name = ""

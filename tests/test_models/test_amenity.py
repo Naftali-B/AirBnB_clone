@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 """Unittest module for the Amenity.py."""
 
 import os
@@ -48,6 +49,32 @@ class TestAmenity(unittest.TestCase):
             self.assertTrue(hasattr(o, k))
             self.assertEqual(type(getattr(o, k, None)), v)
 
+=======
+"""
+    module contains: Tests for Amenity class
+"""
+from models.amenity import Amenity
+import unittest
+
+
+class TestAmenity(unittest.TestCase):
+    """ tests class Amenity """
+    def setUp(self):
+        """ creates class instances """
+        self.amenity = Amenity()
+
+    def tearDown(self):
+        """ deletes instance """
+        del self.amenity
+
+    def test_attributes(self):
+        """ checks type and presence of attributes """
+        self.assertTrue(hasattr(self.amenity, 'name'))
+
+    def test_type_of_attributes(self):
+        """ checks that attributes are the right type"""
+        self.assertIsInstance(self.amenity.name, str)
+>>>>>>> naf_tasks
 
 if __name__ == "__main__":
     unittest.main()
