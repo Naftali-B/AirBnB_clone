@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 """
-    Place
+    module: Place
 """
-from base_model import BaseModel
+from models.base_model import BaseModel
 
 
 class Place(BaseModel):
-
     city_id = ""
     user_id = ""
     name = ""
